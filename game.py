@@ -10,6 +10,7 @@ class Game:
         self.grid[3][4] = 2
         self.grid[4][3] = 2
         self.nextPlayer = 1
+        self.winner = -1
 
     def printGrid(self):
         for row in self.grid:
@@ -23,6 +24,8 @@ class Game:
         return self.grid
     
     def play(self, row, col):
+        if self.winner > -1:
+            return 0
         gainOfSquares = 0
         for direction in DIRECTIONS:
             gainOfSquares += self._playLineFromSquareInDirection(row, col, direction)
@@ -31,6 +34,8 @@ class Game:
         gainOfSquares += 1
         self.grid[row][col] = self.nextPlayer
         self.nextPlayer = 3 - self.nextPlayer # 1 -> 2 or 2 -> 1
+        if len(self._getPlayableSquares) == 0:
+            self._endGame()
         return gainOfSquares
 
     def _getPlayableSquares(self): # returns playable squares as an array of tuples as (coordinates, gain of squares)
@@ -95,3 +100,24 @@ class Game:
             currentCol = col + (i + 1) * direction[1]
             self.grid[currentRow][currentCol] = self.nextPlayer
         return lengthOfLine
+    
+    def _endGame(self):
+        playerOneCounter = 0
+        playerTwoCounter = 0
+        for row in range(8):
+            for col in range(8):
+                squareValue = self.grid[row][col]
+                if squareValue == 1:
+                    playerOneCounter += 1
+                    continue
+                if squareValue == 2:
+                    playerTwoCounter += 1
+        if playerOneCounter > playerTwoCounter:
+            self.winner = 1
+            print("Player 1 wins!")
+        elif playerOneCounter < playerTwoCounter:
+            self.winner = 2
+            print("Player 2 wins!")
+        else:
+            self.winner = 0
+            print("Draw!")
