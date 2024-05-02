@@ -32,16 +32,16 @@ class Game:
         gainOfSquares += 1
         self.grid[row][col] = self.nextPlayer
         self.nextPlayer = 3 - self.nextPlayer # 1 -> 2 or 2 -> 1
-        if len(self._getPlayableSquares) == 0:
+        if len(self.getPlayableSquares()) == 0:
             self._endGame()
         return gainOfSquares
 
-    def _getPlayableSquares(self): # returns playable squares as an array of tuples as (coordinates, gain of squares)
+    def getPlayableSquares(self): # returns playable squares as an array of tuples as (coordinates, gain of squares)
         playableSquares = []
         for square in self._squaresWithAnOccupiedSquareAround():
             lengthInDirections = []
             for direction in DIRECTIONS:
-                lengthInDirections.append(self._lengthOfLineFromSquareToDirection(square[0], square[1], direction, self.nextPlayer))
+                lengthInDirections.append(self._lengthOfLineFromSquareToDirection(square[0], square[1], direction))
             totalGainOfSquares = sum(lengthInDirections)
             if totalGainOfSquares > 0:
                 playableSquares.append((square, totalGainOfSquares))
