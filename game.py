@@ -47,7 +47,8 @@ class Game:
                 playableSquares.append((square, totalGainOfSquares))
         return playableSquares
         
-        
+    def getWinner(self):
+        return self.winner
 
     def _squaresWithAnOccupiedSquareAround(self): # TODO can be optimized with memory
         result = set()
@@ -112,10 +113,10 @@ class Game:
                     playerTwoCounter += 1
         if playerOneCounter > playerTwoCounter:
             self.winner = 1
-            print("Player 1 wins!")
+            #print("Player 1 wins!")
         elif playerOneCounter < playerTwoCounter:
             self.winner = 2
-            print("Player 2 wins!")
+            #print("Player 2 wins!")
         else:
             self.winner = 0
-            print("Draw!")
+            #print("Draw!")
