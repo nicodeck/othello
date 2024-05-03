@@ -1,7 +1,7 @@
 from game import Game
 import random
 
-class GamePlayer:
+class RandomGamePlayer:
     def __init__(self):
         pass
 
@@ -27,7 +27,7 @@ class GamePlayer:
         game = Game()
         return self._playRandomTurn(game, printTurns)
 
-    def _playRandomTurn(self, game: Game, printGrid = False):
+    def playRandomTurn(self, game: Game, printGrid = False):
         while True:
             playableSquares = game.getPlayableSquares()
             if len(playableSquares) == 0:
@@ -39,6 +39,6 @@ class GamePlayer:
         return game.getWinner()
 
 
-gamePlayer = GamePlayer()
+gamePlayer = RandomGamePlayer()
 
 gamePlayer.playNRandomGames(1000)
