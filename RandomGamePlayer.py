@@ -25,7 +25,7 @@ class RandomGamePlayer:
     
     def playRandomGame(self, printTurns = False):
         game = Game()
-        return self._playRandomTurn(game, printTurns)
+        return self.playRandomTurn(game, printTurns)
 
     def playRandomTurn(self, game: Game, printGrid = False):
         while True:
