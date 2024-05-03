@@ -21,6 +21,9 @@ class Game:
     def getGrid(self):
         return self.grid
     
+    def getNextPlayer(self):
+        return self.nextPlayer
+    
     def forceGridAndPlayer(self, grid, nextPlayer):
         self.grid = grid
         self.nextPlayer = nextPlayer
