@@ -21,6 +21,9 @@ class Game:
     def getGrid(self):
         return self.grid
     
+    def forceGrid(self, grid):
+        self.grid = grid
+    
     def play(self, row, col):
         if self.winner > -1:
             return 0
