@@ -25,20 +25,25 @@ class RandomGamePlayer:
     
     def playRandomGame(self, printTurns = False):
         game = Game()
-        return self.playRandomTurn(game, printTurns)
-
-    def playRandomTurn(self, game: Game, printGrid = False):
-        while True:
-            playableSquares = game.getPlayableSquares()
-            if len(playableSquares) == 0:
-                break
-            randomSquare = playableSquares[random.randint(0, len(playableSquares) - 1)][0]
-            game.play(randomSquare[0], randomSquare[1])
-            if printGrid:
-                game.printGrid()
+        playTheNextTurn = True
+        while playTheNextTurn:
+            playTheNextTurn = RandomGamePlayer.playRandomTurn(game, printTurns)
         return game.getWinner()
+    
+    @staticmethod
+    def playRandomTurn(game: Game, printGrid = False):
+        playableSquares = game.getPlayableSquares()
+        if len(playableSquares) == 0:
+            return False
+        randomSquare = playableSquares[random.randint(0, len(playableSquares) - 1)][0]
+        game.play(randomSquare[0], randomSquare[1])
+        if printGrid:
+            game.printGrid()
+        return True
 
-
+"""
 gamePlayer = RandomGamePlayer()
 
 gamePlayer.playNRandomGames(1000)
+
+"""
