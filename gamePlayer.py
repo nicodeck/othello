@@ -3,11 +3,18 @@ from copy import deepcopy
 from game import Game
 
 class TreeNode:
-    def __init__(self, grid, player, value = 0):
+    def __init__(self, grid, player, value = 0, turn = (3,3)):
         self.children = []
         self.value = value
         self.grid = grid
         self.player = player
+        self.turn = turn
+
+    def getValue(self):
+        return self.value
+
+    def getTurn(self):
+        return self.turn
     
     def getNextPlayer(self):
         return self.player
@@ -54,7 +61,9 @@ class GamePlayer:
 
         self._recursiveAddChildrenToDepthN(node, N)        
         
-        node.printTree()
+        #node.printTree()
+
+        return node
     
     def _recursiveAddChildrenToDepthN(self, node: TreeNode, N):
         if N == 0:
@@ -62,7 +71,7 @@ class GamePlayer:
         self._buildChildrenOfNode(node)
         child: TreeNode
         for child in node.getChildren():
-            child.printNode()
+            #child.printNode(True)
             self._recursiveAddChildrenToDepthN(child, N - 1)
 
     
@@ -83,15 +92,17 @@ class GamePlayer:
 
             newGrid = game.getGrid()
             newPlayer = game.getNextPlayer()
-            childNode = TreeNode(newGrid, newPlayer, gainOfSquares)
+            childNode = TreeNode(newGrid, newPlayer, gainOfSquares, square)
             node.addChild(childNode)
         
 
-
+"""
 game = Game()
 
 grid = game.getGrid()
 
 gamePlayer = GamePlayer()
 
-gamePlayer.buildTreeOfDepthN(grid, 1, 2)
+gamePlayer.buildTreeOfDepthN(grid, 1, 1)
+
+"""
