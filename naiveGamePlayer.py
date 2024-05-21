@@ -1,3 +1,4 @@
+import time
 import random
 from game import Game
 from gamePlayer import GamePlayer
@@ -11,6 +12,7 @@ class NaiveGamePlayer:
         playerOneWins = 0
         playerTwoWins = 0
         draws = 0
+        start = time.perf_counter()
         for i in range(N):
             print("Game {}/{}".format(i, N))
             winner = self.playNaiveGame()
@@ -22,7 +24,8 @@ class NaiveGamePlayer:
                 draws += 1
             else:
                 raise Exception("Unexpected game output")
-        print("{} games played: {} wins, {} losses, {} draws".format(N, playerOneWins, playerTwoWins, draws))
+        end = time.perf_counter()
+        print("{} games played: {} wins, {} losses, {} draws, duration: {} seconds per game".format(N, playerOneWins, playerTwoWins, draws, (end - start) / N))
         
 
     def playNaiveGame(self, printGrids = False, printValues = False):
@@ -30,13 +33,13 @@ class NaiveGamePlayer:
         playTheNextTurn = True
         while playTheNextTurn:
             if game.getNextPlayer() == 1:
-                playTheNextTurn = self.playNaiveTurn(game, printGrids, printValues)
+                playTheNextTurn = NaiveGamePlayer.playNaiveTurn(game, printGrids, printValues)
             else:
                 playTheNextTurn = RandomGamePlayer.playRandomTurn(game, printGrids)
         return game.getWinner()
 
-
-    def playNaiveTurn(self, game: Game, printGrid = False, printTurnValue = False):
+    @staticmethod
+    def playNaiveTurn(game: Game, printGrid = False, printTurnValue = False):
         playableSquares = game.getPlayableSquares()
         if len(playableSquares) == 0:
             return False
@@ -60,7 +63,9 @@ class NaiveGamePlayer:
         return True
 
 
+"""
 gameplayer = NaiveGamePlayer()
 
 
 gameplayer.playNNaiveGames(1000)
+"""
