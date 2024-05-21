@@ -48,6 +48,53 @@ class TreeNode:
         child: TreeNode
         for child in self.children:
             child.printChildren(short)
+    
+    def recGetMinimaxTurn(self):
+        if self.children == []:
+            return
+        bestValue = 0
+        worstValue = 0
+        for i in range(len(self.children)):
+            self.children[i].recGetMinimaxTurn()
+            childValue = self.children[i].getValue()
+            if childValue > bestValue:
+                bestValue = childValue
+            if childValue < worstValue:
+                worstValue = childValue
+        if self.player == 1:
+            self.value += bestValue
+        else:
+            self.value += worstValue
+    
+    def recGetAlphaBetaPruningTurn(self, alpha, beta):
+        if self.children == []:
+            return
+        nextAlpha = alpha
+        nextBeta = beta
+        #print("alpha = " + str(alpha) + ", beta = " + str(beta))
+        if self.player == 1:
+            potentialValue = float("-inf")
+            for childIndex in range(len(self.children)):
+                self.children[childIndex].recGetAlphaBetaPruningTurn(nextAlpha, nextBeta)
+                childValue = self.children[childIndex].getValue()
+                potentialValue = max(potentialValue, childValue)
+                if potentialValue > nextBeta:
+                    break # beta cutoff
+                nextAlpha = max(nextAlpha, potentialValue)
+            self.value += self.value + potentialValue
+        else:
+            potentialValue = float("inf")
+            for childIndex in range(len(self.children)):
+                self.children[childIndex].recGetAlphaBetaPruningTurn(nextAlpha, nextBeta)
+                childValue = self.children[childIndex].getValue()
+                potentialValue = min(potentialValue, childValue)
+                if potentialValue < nextAlpha:
+                    break
+                nextBeta = min(nextBeta, potentialValue)
+            self.value += potentialValue
+                
+        
+        
 
 
 
@@ -95,8 +142,8 @@ class GamePlayer:
             childNode = TreeNode(newGrid, newPlayer, gainOfSquares, square)
             node.addChild(childNode)
         
-
 """
+
 game = Game()
 
 grid = game.getGrid()
@@ -104,5 +151,4 @@ grid = game.getGrid()
 gamePlayer = GamePlayer()
 
 gamePlayer.buildTreeOfDepthN(grid, 1, 1)
-
 """
