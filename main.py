@@ -33,8 +33,9 @@ minimaxgp.playNMinimaxGames(100, 2)
 
 print("With the depth of 2, the minimax bot already has a great win rate against a naive player")
 print("Let's see if a minimax bot with a depth of 3 has a greater win rate against the same naive player")
+print("This bot takes longer to evaluate the best option, therefore we will only run 25 games")
 input("Press Enter to run the games...")
 
-minimaxgp.playNMinimaxGames(100, 3)
+minimaxgp.playNMinimaxGames(25, 3)
 
 print("The depth-of-3 minimax bot crushes the naive player!")

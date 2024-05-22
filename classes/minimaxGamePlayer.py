@@ -26,7 +26,7 @@ class MinimaxGamePlayer:
             else:
                 raise Exception("Unexpected game output")
         end = time.perf_counter()
-        print("{} games played: {} wins, {} losses, {} draws, duration: {} seconds per game".format(N, playerOneWins, playerTwoWins, draws, round((end - start) / N, 4)))
+        print("{} games played: {} wins, {} losses, {} draws, winrate: {}%, duration: {} seconds per game".format(N, playerOneWins, playerTwoWins, draws,round( (playerOneWins / N) * 100, 4), round((end - start) / N, 4)))
         
 
     def playMinimaxGame(self, depth, printGrids = False, printValues = False):
