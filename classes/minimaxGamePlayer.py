@@ -1,22 +1,22 @@
 import time
 import random
-from game import Game
-from gamePlayer import GamePlayer
-from randomGamePlayer import RandomGamePlayer
-from naiveGamePlayer import NaiveGamePlayer
+from classes.game import Game
+from classes.gamePlayer import GamePlayer
+from classes.randomGamePlayer import RandomGamePlayer
+from classes.naiveGamePlayer import NaiveGamePlayer
 
-class AlphaBetaPruningGamePlayer:
+class MinimaxGamePlayer:
     def __init__(self):
         pass
 
-    def playNAlphaBetaPruningGames(self, N, depth):
+    def playNMinimaxGames(self, N, depth):
         playerOneWins = 0
         playerTwoWins = 0
         draws = 0
         start = time.perf_counter()
         for i in range(N):
             print("Game {}/{}".format(i, N))
-            winner = self.playAlphaBetaPruningGame(depth)
+            winner = self.playMinimaxGame(depth)
             if winner == 1:
                 playerOneWins += 1
             elif winner == 2:
@@ -26,28 +26,28 @@ class AlphaBetaPruningGamePlayer:
             else:
                 raise Exception("Unexpected game output")
         end = time.perf_counter()
-        print("{} games played: {} wins, {} losses, {} draws, duration: {} seconds per game".format(N, playerOneWins, playerTwoWins, draws, (end - start) / N))
+        print("{} games played: {} wins, {} losses, {} draws, duration: {} seconds per game".format(N, playerOneWins, playerTwoWins, draws, round((end - start) / N, 4)))
         
 
-    def playAlphaBetaPruningGame(self, depth, printGrids = False, printValues = False):
+    def playMinimaxGame(self, depth, printGrids = False, printValues = False):
         game = Game()
         playTheNextTurn = True
         while playTheNextTurn:
             if game.getNextPlayer() == 1:
-                playTheNextTurn = AlphaBetaPruningGamePlayer.playAlphaBetaPruningTurn(game, depth, printGrids, printValues)
+                playTheNextTurn = MinimaxGamePlayer.playMinimaxTurn(game, depth, printGrids, printValues)
             else:
                 playTheNextTurn = RandomGamePlayer.playRandomTurn(game)
         game.printGrid()
         return game.getWinner()
 
     @staticmethod
-    def playAlphaBetaPruningTurn(game: Game, depth, printGrid = False, printTurnValue = False):
+    def playMinimaxTurn(game: Game, depth, printGrid = False, printTurnValue = False):
         playableSquares = game.getPlayableSquares()
         if len(playableSquares) == 0:
             return False
         gamePlayer = GamePlayer()
         node = gamePlayer.buildTreeOfDepthN(game.getGrid(), game.getNextPlayer(), depth)
-        node.recGetAlphaBetaPruningTurn(float("-inf"), float("inf"))
+        node.recGetMinimaxTurn()
         children = node.getChildren()
         bestChildIndexes = [0]
         bestScore = 0
@@ -67,7 +67,7 @@ class AlphaBetaPruningGamePlayer:
         return True
 
 
-gameplayer = AlphaBetaPruningGamePlayer()
-
-
-gameplayer.playNAlphaBetaPruningGames(100, 3)
+"""
+gameplayer = MinimaxGamePlayer()
+gameplayer.playNMinimaxGames(100, 3)
+"""

@@ -1,8 +1,8 @@
 import time
 import random
-from game import Game
-from gamePlayer import GamePlayer
-from randomGamePlayer import RandomGamePlayer
+from classes.game import Game
+from classes.gamePlayer import GamePlayer
+from classes.randomGamePlayer import RandomGamePlayer
 
 class NaiveGamePlayer:
     def __init__(self):
@@ -25,7 +25,7 @@ class NaiveGamePlayer:
             else:
                 raise Exception("Unexpected game output")
         end = time.perf_counter()
-        print("{} games played: {} wins, {} losses, {} draws, duration: {} seconds per game".format(N, playerOneWins, playerTwoWins, draws, (end - start) / N))
+        print("{} games played: {} wins, {} losses, {} draws, duration: {} seconds per game".format(N, playerOneWins, playerTwoWins, draws, round((end - start) / N, 4)))
         
 
     def playNaiveGame(self, printGrids = False, printValues = False):
@@ -63,9 +63,8 @@ class NaiveGamePlayer:
         return True
 
 
+
 """
 gameplayer = NaiveGamePlayer()
-
-
 gameplayer.playNNaiveGames(1000)
 """

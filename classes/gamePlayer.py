@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from game import Game
+from classes.game import Game
 
 class TreeNode:
     def __init__(self, grid, player, value = 0, turn = (3,3)):
@@ -65,33 +65,6 @@ class TreeNode:
             self.value += bestValue
         else:
             self.value += worstValue
-    
-    def recGetAlphaBetaPruningTurn(self, alpha, beta):
-        if self.children == []:
-            return
-        nextAlpha = alpha
-        nextBeta = beta
-        #print("alpha = " + str(alpha) + ", beta = " + str(beta))
-        if self.player == 1:
-            potentialValue = float("-inf")
-            for childIndex in range(len(self.children)):
-                self.children[childIndex].recGetAlphaBetaPruningTurn(nextAlpha, nextBeta)
-                childValue = self.children[childIndex].getValue()
-                potentialValue = max(potentialValue, childValue)
-                if potentialValue > nextBeta:
-                    break # beta cutoff
-                nextAlpha = max(nextAlpha, potentialValue)
-            self.value += self.value + potentialValue
-        else:
-            potentialValue = float("inf")
-            for childIndex in range(len(self.children)):
-                self.children[childIndex].recGetAlphaBetaPruningTurn(nextAlpha, nextBeta)
-                childValue = self.children[childIndex].getValue()
-                potentialValue = min(potentialValue, childValue)
-                if potentialValue < nextAlpha:
-                    break
-                nextBeta = min(nextBeta, potentialValue)
-            self.value += potentialValue
                 
         
         
@@ -142,13 +115,10 @@ class GamePlayer:
             childNode = TreeNode(newGrid, newPlayer, gainOfSquares, square)
             node.addChild(childNode)
         
+
 """
-
 game = Game()
-
 grid = game.getGrid()
-
 gamePlayer = GamePlayer()
-
 gamePlayer.buildTreeOfDepthN(grid, 1, 1)
 """

@@ -1,4 +1,4 @@
-from game import Game
+from classes.game import Game
 import random
 
 class RandomGamePlayer:
@@ -41,9 +41,8 @@ class RandomGamePlayer:
             game.printGrid()
         return True
 
+
 """
 gamePlayer = RandomGamePlayer()
-
 gamePlayer.playNRandomGames(1000)
-
 """
